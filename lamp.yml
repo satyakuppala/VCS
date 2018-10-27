@@ -22,7 +22,7 @@
 ## Installing php modules ##
   - name: install php packages
     apt:
-      name: {{ "item"}}
+      name: {{ "item" }}
       state: present
     with_items:
     - php
@@ -35,7 +35,7 @@
     apt:
       name: {{ "item"}}
       state: present
-    with_item:
+    with_items:
     - php
     - php-mysql
     when: ansible_os_family == "Redhat"

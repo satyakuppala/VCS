@@ -33,7 +33,7 @@
   ## installing php modules for redhat
   - name: install php packages
     apt:
-      name: {{ "item"}}
+      name: "{{ item}"
       state: present
     with_items:
     - php

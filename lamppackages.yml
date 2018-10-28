@@ -1,0 +1,66 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+## Updating and apache install ##
+  - name: update packages and install apache2
+    package:
+      name: "{{pack_name}}"
+      update_cache: yes
+      state: present
+    notify:
+    - restart apache2
+  
+  - name: Downloading a webpage
+    get_url:
+      url: https://github.com/satyakuppala/VCS/blob/master/lamp.yml
+      dest: /var/www/html/info.php
+    notify:
+      - restart apache2
+      - restart httpd
+
+  # Updating and httpd install ##
+  - name: install httpd   
+    package:
+      name: "{{pack_name}}"
+      state: present
+    notify:
+    - restart httpd  
+  
+## Installing php modules ##
+  - name: install php packages
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - php
+    - libapache2-mod-php
+    - php-mcrypt 
+    - php-mysql
+    
+  ## installing php modules for redhat
+  - name: install php packages
+    apt:
+      name: "{{ item}}"
+      state: present
+    with_items:
+    - php
+    - php-mysql
+    
+
+## restart apache ##  
+  handlers:
+  - name: restart apache
+    service:
+      name: apache2
+      enabled: yes
+      state: restarted
+    
+  # restart httpd #
+  - name: restart httpd
+    service:
+      name: httpd
+      enabled: yes
+      state: restarted
+
+

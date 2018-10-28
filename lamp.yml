@@ -11,6 +11,14 @@
     notify:
     - restart apache2
     when: ansible_os_family == "Debian"  
+  - name: Downloading a webpage
+    get_url:
+      url: https://github.com/satyakuppala/VCS/blob/master/lamp.yml
+      dest: /var/www/html/info.php
+    notify:
+      - restart apache2
+      - restart httpd
+
   # Updating and httpd install ##
   - name: install httpd   
     yum:

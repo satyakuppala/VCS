@@ -4,16 +4,15 @@
   tasks:
   - name: install apache server
     package:
-      name: 
+      name: "{{ pack_name }}"
       state: present
     notify:
-      - restart apache
+    - restart apache
   - name: install php packages
     package:
-      name:  "{{ item }}"
+      name: "{{ item }}"
       state: present
-    with_items:
-      - php  
+    with_items: "{{ php_packages }}"
     notify:
     - restart apache
   - name: download web page

@@ -10,7 +10,7 @@
       state: present
     notify:
     - restart apache2
-  
+  ## downloading web page
   - name: Downloading a webpage
     get_url:
       url: https://github.com/satyakuppala/VCS/blob/master/lamp.yml
@@ -18,16 +18,14 @@
     notify:
       - restart apache2
       - restart httpd
-
-  # Updating and httpd install ##
+      # Updating and httpd install ##
   - name: install httpd   
     package:
       name: "{{pack_name}}"
       state: present
     notify:
     - restart httpd  
-  
-## Installing php modules ##
+  ## Installing php modules ##
   - name: install php packages
     apt:
       name: "{{ item }}"
@@ -37,8 +35,7 @@
     - libapache2-mod-php
     - php-mcrypt 
     - php-mysql
-    
-  ## installing php modules for redhat
+    ## installing php modules for redhat
   - name: install php packages
     apt:
       name: "{{ item}}"
@@ -46,17 +43,14 @@
     with_items:
     - php
     - php-mysql
-    
-
-## restart apache ##  
+    ## restart apache ##  
   handlers:
   - name: restart apache
     service:
       name: apache2
       enabled: yes
       state: restarted
-    
-  # restart httpd #
+    # restart httpd #
   - name: restart httpd
     service:
       name: httpd
